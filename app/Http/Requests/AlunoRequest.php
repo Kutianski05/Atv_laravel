@@ -12,10 +12,9 @@ class AlunoRequest extends FormRequest
         return true;
     }
 
-
     public function rules(): array
     {
-        $alunoId = $this->route('id');
+        $alunoId = $this->route('aluno'); // corrigido: era 'id'
 
         return [
             'nome'  => 'required|string|max:255',
@@ -27,7 +26,6 @@ class AlunoRequest extends FormRequest
             'curso' => 'required|string|max:255',
         ];
     }
-
 
     public function messages(): array
     {

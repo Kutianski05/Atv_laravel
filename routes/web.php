@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlunoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,3 +30,11 @@ Route::get('/categoria/{id}', function ($id) {
 Route::get('/usuario/{id}', function ($id) {
     return "Exibindo o usuário de ID: {$id}";
 });
+
+Route::get('/alunos', [AlunoController::class, 'index']) -> name ('alunos.index');
+Route::get('/alunos/create',     [AlunoController::class, 'create'])->name('alunos.create');
+Route::post('/alunos',           [AlunoController::class, 'store'])->name('alunos.store');
+Route::get('/alunos/{id}',       [AlunoController::class, 'show'])->name('alunos.show');
+Route::get('/alunos/{id}/edit',  [AlunoController::class, 'edit'])->name('alunos.edit');
+Route::put('/alunos/{id}',       [AlunoController::class, 'update'])->name('alunos.update');
+Route::delete('/alunos/{id}',    [AlunoController::class, 'destroy'])->name('alunos.destroy');

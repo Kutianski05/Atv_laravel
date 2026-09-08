@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Aluno;
 use Illuminate\Http\Request;
+use App\Http\Requests\AlunoRequest;
 
 class AlunoController extends Controller
 {
@@ -24,7 +25,6 @@ class AlunoController extends Controller
         return view('alunos.consultas', compact('porCurso', 'porNome', 'recentes', 'quantidade'));
     }
 
-    // READ - lista todos
     public function index()
     {
         $alunos = Aluno::orderBy('nome')->get();
@@ -32,20 +32,14 @@ class AlunoController extends Controller
         return view('alunos.index', compact('alunos'));
     }
 
-    // CREATE - formulário
     public function create()
     {
         return view('alunos.create');
     }
 
-    // CREATE - grava no banco
-    public function store(Request $request)
+    public function store(AlunoRequest $request)
     {
-        $dados = $request->validate([
-            'nome'  => 'required|string|max:255',
-            'email' => 'required|email|unique:alunos,email',
-            'curso' => 'required|string|max:255',
-        ]);
+        $dados = $request->validated();
 
         Aluno::create($dados);
 
@@ -54,7 +48,6 @@ class AlunoController extends Controller
             ->with('sucesso', 'Aluno cadastrado com sucesso!');
     }
 
-    // READ - exibe um
     public function show(string $id)
     {
         $aluno = Aluno::findOrFail($id);
@@ -62,7 +55,6 @@ class AlunoController extends Controller
         return view('alunos.show', compact('aluno'));
     }
 
-    // UPDATE - formulário
     public function edit(string $id)
     {
         $aluno = Aluno::findOrFail($id);
@@ -70,16 +62,11 @@ class AlunoController extends Controller
         return view('alunos.edit', compact('aluno'));
     }
 
-    // UPDATE - grava a alteração
-    public function update(Request $request, string $id)
+    public function update(AlunoRequest $request, string $id)
     {
         $aluno = Aluno::findOrFail($id);
 
-        $dados = $request->validate([
-            'nome'  => 'required|string|max:255',
-            'email' => 'required|email|unique:alunos,email,' . $aluno->id,
-            'curso' => 'required|string|max:255',
-        ]);
+        $dados = $request->validated();
 
         $aluno->update($dados);
 
@@ -88,7 +75,6 @@ class AlunoController extends Controller
             ->with('sucesso', 'Aluno atualizado com sucesso!');
     }
 
-    // DELETE
     public function destroy(string $id)
     {
         $aluno = Aluno::findOrFail($id);

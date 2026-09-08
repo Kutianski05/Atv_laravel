@@ -13,6 +13,14 @@
     <p style="color: green">{{ session('sucesso') }}</p>
 @endif
 
+@if ($errors->any())
+    <ul style="color: red">
+        @foreach ($errors->all() as $erro)
+            <li>{{ $erro }}</li>
+        @endforeach
+    </ul>
+@endif
+
     <h1>@yield('titulo')</h1>
 
     @yield('conteudo')

@@ -14,7 +14,6 @@ class AlunoController extends Controller
         return view('home', compact('alunos'));
     }
 
-    // ===== ATV 11: as 4 consultas =====
     public function consultas()
     {
         $porCurso   = Aluno::doCurso('Engenharia de Software')->get();
@@ -25,26 +24,37 @@ class AlunoController extends Controller
         return view('alunos.consultas', compact('porCurso', 'porNome', 'recentes', 'quantidade'));
     }
 
-    // ===== CRUD =====
+    // READ - lista todos
     public function index()
     {
-        $alunos = Aluno::all();
+        $alunos = Aluno::orderBy('nome')->get();
 
         return view('alunos.index', compact('alunos'));
     }
 
+    // CREATE - formulário
     public function create()
     {
         return view('alunos.create');
     }
 
+    // CREATE - grava no banco
     public function store(Request $request)
     {
-        Aluno::create($request->only('nome', 'email', 'curso'));
+        $dados = $request->validate([
+            'nome'  => 'required|string|max:255',
+            'email' => 'required|email|unique:alunos,email',
+            'curso' => 'required|string|max:255',
+        ]);
 
-        return redirect()->route('alunos.index')->with('sucesso', 'Aluno cadastrado!');
+        Aluno::create($dados);
+
+        return redirect()
+            ->route('alunos.index')
+            ->with('sucesso', 'Aluno cadastrado com sucesso!');
     }
 
+    // READ - exibe um
     public function show(string $id)
     {
         $aluno = Aluno::findOrFail($id);
@@ -52,6 +62,7 @@ class AlunoController extends Controller
         return view('alunos.show', compact('aluno'));
     }
 
+    // UPDATE - formulário
     public function edit(string $id)
     {
         $aluno = Aluno::findOrFail($id);
@@ -59,17 +70,32 @@ class AlunoController extends Controller
         return view('alunos.edit', compact('aluno'));
     }
 
+    // UPDATE - grava a alteração
     public function update(Request $request, string $id)
     {
-        Aluno::findOrFail($id)->update($request->only('nome', 'email', 'curso'));
+        $aluno = Aluno::findOrFail($id);
 
-        return redirect()->route('alunos.index')->with('sucesso', 'Aluno atualizado!');
+        $dados = $request->validate([
+            'nome'  => 'required|string|max:255',
+            'email' => 'required|email|unique:alunos,email,' . $aluno->id,
+            'curso' => 'required|string|max:255',
+        ]);
+
+        $aluno->update($dados);
+
+        return redirect()
+            ->route('alunos.index')
+            ->with('sucesso', 'Aluno atualizado com sucesso!');
     }
 
+    // DELETE
     public function destroy(string $id)
     {
-        Aluno::findOrFail($id)->delete();
+        $aluno = Aluno::findOrFail($id);
+        $aluno->delete();
 
-        return redirect()->route('alunos.index')->with('sucesso', 'Aluno removido!');
+        return redirect()
+            ->route('alunos.index')
+            ->with('sucesso', "Aluno {$aluno->nome} removido com sucesso!");
     }
 }

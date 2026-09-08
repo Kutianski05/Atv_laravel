@@ -31,6 +31,7 @@ Route::get('/usuario/{id}', function ($id) {
     return "Exibindo o usuário de ID: {$id}";
 });
 
+Route::get('/', [AlunoController::class, 'home'])->name('home');
 Route::get('/alunos', [AlunoController::class, 'index']) -> name ('alunos.index');
 Route::get('/alunos/create',     [AlunoController::class, 'create'])->name('alunos.create');
 Route::post('/alunos',           [AlunoController::class, 'store'])->name('alunos.store');

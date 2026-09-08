@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Lista de Alunos</title>
-</head>
-<body>
-    <h1>Lista de Alunos</h1>
+@extends('layouts.app')
+
+@section('titulo', 'Lista de Alunos')
+
+@section('conteudo')
 
     <a href="{{ route('alunos.create') }}">Novo aluno</a>
 
@@ -13,12 +10,15 @@
         <tr>
             <th>ID</th>
             <th>Nome</th>
+            <th>E-mail</th>
             <th>Ações</th>
         </tr>
-        @forelse ($alunos as $aluno)
+
+        @foreach ($alunos as $aluno)
             <tr>
                 <td>{{ $aluno['id'] }}</td>
                 <td>{{ $aluno['nome'] }}</td>
+                <td>{{ $aluno['email'] }}</td>
                 <td>
                     <a href="{{ route('alunos.show', $aluno['id']) }}">Ver</a>
                     <a href="{{ route('alunos.edit', $aluno['id']) }}">Editar</a>
@@ -29,9 +29,11 @@
                     </form>
                 </td>
             </tr>
-        @empty
-            <tr><td colspan="3">Nenhum aluno cadastrado.</td></tr>
-        @endforelse
+        @endforeach
     </table>
-</body>
-</html>
+
+    @if (count($alunos) === 0)
+        <p>Nenhum aluno cadastrado.</p>
+    @endif
+
+@endsection

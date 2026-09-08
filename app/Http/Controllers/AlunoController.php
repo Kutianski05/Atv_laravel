@@ -12,6 +12,13 @@ class AlunoController extends Controller
         ['id' => 2, 'nome' => 'Maria Silva', 'email' => 'maria@exemplo.com'],
     ];
 
+    public function home()
+{
+    $alunos = $this->lista;
+
+    return view('home', compact('alunos'));
+}
+
     public function index()
     {
         $alunos = $this->lista;

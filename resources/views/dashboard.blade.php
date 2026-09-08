@@ -1,17 +1,22 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
+@section('titulo', 'Dashboard')
+
+@section('conteudo')
+    <div class="max-w-3xl mx-auto py-6 px-4 text-gray-900 dark:text-gray-100">
+        <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
+
+        <div class="bg-gray-100 dark:bg-gray-800 rounded-lg p-4 mb-6">
+            Você está logado!
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+            <a href="{{ route('alunos.index') }}" class="block bg-blue-600 text-white rounded-lg p-4 text-center hover:bg-blue-700">
+                Ver Alunos
+            </a>
+            <a href="{{ route('turmas.index') }}" class="block bg-blue-600 text-white rounded-lg p-4 text-center hover:bg-blue-700">
+                Ver Turmas
+            </a>
         </div>
     </div>
-</x-app-layout>
+@endsection

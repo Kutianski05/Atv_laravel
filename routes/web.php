@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AlunoController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TurmaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,3 +41,4 @@ Route::get('/alunos/{id}',       [AlunoController::class, 'show'])->name('alunos
 Route::get('/alunos/{id}/edit',  [AlunoController::class, 'edit'])->name('alunos.edit');
 Route::put('/alunos/{id}',       [AlunoController::class, 'update'])->name('alunos.update');
 Route::delete('/alunos/{id}',    [AlunoController::class, 'destroy'])->name('alunos.destroy');
+Route::get('/turmas', [TurmaController::class, 'index'])->name('turmas.index');

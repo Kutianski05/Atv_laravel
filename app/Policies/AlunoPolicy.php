@@ -7,28 +7,40 @@ use App\Models\User;
 
 class AlunoPolicy
 {
+    /**
+     * Admin e professor podem listar/visualizar.
+     */
     public function viewAny(User $user): bool
     {
-        return true;
+        return in_array($user->role, ['admin', 'professor']);
     }
 
     public function view(User $user, Aluno $aluno): bool
     {
-        return true;
+        return in_array($user->role, ['admin', 'professor']);
     }
 
+    /**
+     * Só admin pode cadastrar.
+     */
     public function create(User $user): bool
     {
-        return true;
+        return $user->role === 'admin';
     }
 
+    /**
+     * Admin e professor podem editar.
+     */
     public function update(User $user, Aluno $aluno): bool
     {
-        return true;
+        return in_array($user->role, ['admin', 'professor']);
     }
 
+    /**
+     * Só admin pode excluir.
+     */
     public function delete(User $user, Aluno $aluno): bool
     {
-        return true;
+        return $user->role === 'admin';
     }
 }

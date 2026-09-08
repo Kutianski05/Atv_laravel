@@ -9,7 +9,7 @@ class Aluno extends Model
 {
     protected $table = 'alunos';
 
-    protected $fillable = ['nome', 'email', 'curso', 'turma_id'];
+    protected $fillable = ['nome', 'email', 'curso', 'turma_id', 'user_id'];
 
     public function turma()
     {
@@ -31,5 +31,9 @@ class Aluno extends Model
     {
         return $query->where('created_at', '>=', now()->subDays($dias))
                      ->orderBy('created_at', 'desc');
+    }
+    public function user()
+    {
+    return $this->belongsTo(User::class);
     }
 }

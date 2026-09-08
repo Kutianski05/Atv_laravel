@@ -27,6 +27,8 @@ class AlunoController extends Controller
 
     public function index()
     {
+        $this->authorize('viewAny', Aluno::class);
+
         $alunos = Aluno::orderBy('nome')->get();
 
         return view('alunos.index', compact('alunos'));
@@ -34,11 +36,15 @@ class AlunoController extends Controller
 
     public function create()
     {
+        $this->authorize('create', Aluno::class);
+
         return view('alunos.create');
     }
 
     public function store(AlunoRequest $request)
     {
+        $this->authorize('create', Aluno::class);
+
         $dados = $request->validated();
 
         Aluno::create($dados);
@@ -52,6 +58,8 @@ class AlunoController extends Controller
     {
         $aluno = Aluno::findOrFail($id);
 
+        $this->authorize('view', $aluno);
+
         return view('alunos.show', compact('aluno'));
     }
 
@@ -59,12 +67,16 @@ class AlunoController extends Controller
     {
         $aluno = Aluno::findOrFail($id);
 
+        $this->authorize('update', $aluno);
+
         return view('alunos.edit', compact('aluno'));
     }
 
     public function update(AlunoRequest $request, string $id)
     {
         $aluno = Aluno::findOrFail($id);
+
+        $this->authorize('update', $aluno);
 
         $dados = $request->validated();
 
@@ -78,6 +90,9 @@ class AlunoController extends Controller
     public function destroy(string $id)
     {
         $aluno = Aluno::findOrFail($id);
+
+        $this->authorize('delete', $aluno);
+
         $aluno->delete();
 
         return redirect()

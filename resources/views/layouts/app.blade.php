@@ -9,6 +9,10 @@
 
     @include('partials.menu')
 
+    @if (session('sucesso'))
+    <p style="color: green">{{ session('sucesso') }}</p>
+@endif
+
     <h1>@yield('titulo')</h1>
 
     @yield('conteudo')

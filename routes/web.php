@@ -33,6 +33,7 @@ Route::get('/usuario/{id}', function ($id) {
 
 Route::get('/', [AlunoController::class, 'home'])->name('home');
 Route::get('/alunos', [AlunoController::class, 'index']) -> name ('alunos.index');
+Route::get('/alunos/consultas', [AlunoController::class, 'consultas'])->name('alunos.consultas');
 Route::get('/alunos/create',     [AlunoController::class, 'create'])->name('alunos.create');
 Route::post('/alunos',           [AlunoController::class, 'store'])->name('alunos.store');
 Route::get('/alunos/{id}',       [AlunoController::class, 'show'])->name('alunos.show');
